@@ -1,4 +1,5 @@
 using System.Text.Json;
+using API.Interfaces;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,27 +7,20 @@ namespace API.Controllers
 {   
     [ApiController]    
     [Route("api/product")]     
-    public class ProductController
-    {        
-        public ProductController()
+    public class ProductController: ControllerBase
+    {    
+        private readonly IProductService _productService;    
+
+        public ProductController(IProductService productService)
         {
+            _productService = productService;
         }
 
         [HttpGet("products")]
-        public IActionResult GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            var products = new List<ProductDto>();
-            products.Add(new ProductDto(1, "Product 1", 10.99m));
-            products.Add(new ProductDto(2, "Product 2", 15.99m));
-            products.Add(new ProductDto(3, "Product 3", 20.99m));            
-
-            var productsJson = JsonSerializer.Serialize<IEnumerable<ProductDto>>(products);
-
-            return new ContentResult
-            {
-                Content = productsJson,
-                ContentType = "application/json"
-            };
+            var result = await _productService.GetProductsAsync();
+            return Ok(result);
         }
     
     }
