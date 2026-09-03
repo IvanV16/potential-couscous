@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {   
-    [Route("api/product")] 
     [ApiController]    
+    [Route("api/product")]     
     public class ProductController
     {        
         public ProductController()
