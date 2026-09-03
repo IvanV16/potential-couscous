@@ -16,11 +16,12 @@ namespace API.Services
 
         public async Task<IEnumerable<ProductDto>> GetProductsAsync()
         {
-           var products = new List<ProductDto>();
-            products.Add(new ProductDto(1, "Product 1", 10.99m));
-            products.Add(new ProductDto(2, "Product 2", 15.99m));
-            products.Add(new ProductDto(3, "Product 3", 20.99m));    
-          
+            var products = await _context.Products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price
+            }).ToListAsync();
 
             return products;
         }
